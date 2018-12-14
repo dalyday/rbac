@@ -1,0 +1,56 @@
+import re
+from django.shortcuts import render,HttpResponse
+import time
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+
+from rbac import models
+from rbac.service.init_permission import init_permission
+
+
+def login(request):
+    if request.method == "GET":
+        return render(request,'login.html')
+    else:
+        user = request.POST.get('user')
+        pwd = request.POST.get('pwd')
+        user = models.UserInfo.objects.filter(username=user,password=pwd).first()#去数据库取数据
+        if user:
+            #登陆成功
+            # print('登陆成功',user)
+            # 获取当前用户的所有角色
+            # role_liat = user.roles.all()
+            # print(role_liat)   打印出来的为对象，但使用__str__回调函数可以显示中文
+            init_permission(user,request)
+            return HttpResponse('登陆成功')
+        else:
+            return render(request, 'login.html')
+
+def users(request):
+    # print(request.permission_codes)
+    # 打印结果
+    # ['list', 'add', 'del', 'edit']
+    user_list = models.UserInfo.objects.all()
+    return render(request,'users.html',{'user_list':user_list})
+
+
+def user_add(request):
+    return HttpResponse('登录！')
+
+
+def hosts(request):
+    return render(request,'hosts.html')
+
+
+
+
+# from app01 import models
+# @cache_page(2)#超时时间2秒
+# def test(request):
+    # models.Info.objects.create(name='jack')
+    # print('你好!')
+    # return HttpResponse("...")
+    # ctime = str(time.time())
+    # return HttpResponse(ctime)
+    # ctime = str(time.time())
+    # return render(request,'test.html',{'ctime':ctime})

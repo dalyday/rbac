@@ -1,0 +1,14 @@
+﻿app01.views.login               # 用户登录，get时form生成表单，post时form验证，账号、密码与数据库验证
+app01.views.users               # 用户列表
+app01.form.LoginFrom            # form类，自定制字段，字段名字，错误信息，是否为空等（username，password与models.UserInfo字段要一致）
+
+rbac.middlewares.rbac           # 利用中间件设置白名单网页通过，从session获取权限信息与当前URL匹配
+rbac.service.init_permission	# 查询数据数据，把权限信息+菜单信息放入session中
+rbac.static.rbac.rbac.css	    # 左侧菜单css样式
+rbac.templates.rbac.menu.html   # 左侧菜单网页
+rbac.templatetags.rbac  	    # 获取session菜单信息，做成三级菜单格式
+rbac.models		                # 多对多表单
+
+templates.layout.html           # 头部，内容页面
+templates.login.html            # 登录页面
+templates.users.html            # 用户列表页面，根据permission_code是否有add,edit,del功能展示

@@ -1,0 +1,14 @@
+{% load cache %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>{{ ctime }}</h1>
+    {% cache 2 xxxxx %}<!--2秒超时时间->
+        {{ ctime }}
+    {% endcache %}
+</body>
+</html>
